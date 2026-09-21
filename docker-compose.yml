@@ -1,0 +1,17 @@
+services:
+  whatsapp-engine:
+    build: .
+    container_name: whatsapp_baileys_motor
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      - PORT=4000
+      - NODE_ENV=production
+    volumes:
+      # Persistência das credenciais da sessão do WhatsApp (evita ter que ler QR code de novo ao reiniciar)
+      - ./baileys_auth_info:/app/baileys_auth_info
+      # Armazenamento de mídias enviadas e recebidas
+      - ./uploads:/app/uploads
+      # Persistência do histórico de conversas e estado
+      - ./store.json:/app/store.json
